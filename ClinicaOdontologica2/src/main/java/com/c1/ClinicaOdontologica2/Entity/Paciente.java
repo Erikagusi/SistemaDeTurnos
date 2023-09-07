@@ -36,6 +36,9 @@ public class Paciente {
         this.domicilio = domicilio;
         this.email = email;
     }
+
+    public Paciente() {
+    }
 }
 
 

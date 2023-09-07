@@ -86,7 +86,32 @@ public class DomicilioDaoH2 implements Idao<Domicilio> {
 
     @Override
     public void actualizar(Domicilio domicilio) {
-        log.info("Iniciando operacion de: actualizar un domicilio");
+        log.info("Iniciando operacion de Actualizar Domicilio");
+        Connection connection = null;
+
+
+        try {
+
+            connection = BDH2.getConnnection();
+
+            PreparedStatement psUpdate = connection.prepareStatement(SQL_UPDATE);
+            //Parametrizadas
+            psUpdate.setString(1, domicilio.getCalle());
+            psUpdate.setInt(2, domicilio.getNumero());
+            psUpdate.setString(3, domicilio.getLocalidad());
+            psUpdate.setString(4, domicilio.getProvincia());
+
+            psUpdate.execute();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
 
     }
 

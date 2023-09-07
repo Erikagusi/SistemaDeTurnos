@@ -8,8 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ClinicaOdontologica2Application {
 
 	public static void main(String[] args) {
-		BDH2.crearTabla();
+
 		SpringApplication.run(ClinicaOdontologica2Application.class, args);
+		BDH2.crearTabla();
 	}
 
 }

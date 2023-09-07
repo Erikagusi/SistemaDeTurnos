@@ -5,7 +5,7 @@ import com.c1.ClinicaOdontologica2.Dao.Idao;
 import com.c1.ClinicaOdontologica2.Entity.Domicilio;
 import com.c1.ClinicaOdontologica2.Entity.Paciente;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
+/*import org.springframework.security.core.parameters.P;*/
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -14,10 +14,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class PacienteDaoH2 implements Idao<Paciente> {
-    private static final String SQL_INSERT = "INSERT INTO PACIENTES (NOMBRE, APELLIDO, CEDULA, FECHA_INGRESO, DOMICILIO_ID, EMAIL) VALUES (?,?,?.?,?,?)";
+    private static final String SQL_INSERT = "INSERT INTO PACIENTES (NOMBRE, APELLIDO, CEDULA, FECHA_INGRESO, DOMICILIO_ID, EMAIL) VALUES (?,?,?,?,?,?)";
     private static final String SQL_SELECT_ONE = "SELECT * FROM PACIENTES WHERE ID=?";
     private static final String SQL_SELECT_EMAIL = "SELECT * FROM PACIENTES WHERE EMAIL=?";
-
     private static final String SQL_SELECT_ALL = "SELECT * FROM PACIENTES";
     private static final String SQL_DELETE = "DELETE FROM PACIENTES WHERE ID=?";
     private static final String SQL_UPDATE = "UPDATE PACIENTES SET NOMBRE=?, APELLIDO=?, CEDULA=?, FECHAINGRESO=?, DOMICILIO=?, EMAIL=? WHERE ID=?";
@@ -28,7 +27,6 @@ public class PacienteDaoH2 implements Idao<Paciente> {
         Connection connection = null;
         DomicilioDaoH2 daoAux =new DomicilioDaoH2();
         Domicilio domicilio =daoAux.guardar(paciente.getDomicilio());
-
 
         try {
             connection = BDH2.getConnnection();
@@ -101,7 +99,37 @@ public class PacienteDaoH2 implements Idao<Paciente> {
 
     @Override
     public void actualizar(Paciente paciente) {
+        log.info("Iniciando operacion de Actualizar Paciente");
+        Connection connection = null;
 
+        try {
+
+            connection = BDH2.getConnnection();
+            DomicilioDaoH2 daoaux = new DomicilioDaoH2();
+            daoaux.actualizar(paciente.getDomicilio());
+
+            PreparedStatement psUpdate = connection.prepareStatement(SQL_UPDATE);
+            //Parametrizadas
+            psUpdate.setString(1, paciente.getNombre());
+            psUpdate.setString(2, paciente.getApeliido());
+            psUpdate.setString(3, paciente.getCedula());
+            psUpdate.setDate(4, Date.valueOf(paciente.getFechaIngreso()));
+            psUpdate.setInt(5, paciente.getDomicilio().getId());
+            psUpdate.setString(6, paciente.getEmail());
+            psUpdate.setInt(7, paciente.getId());
+
+            psUpdate.execute();
+
+
+        } catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
