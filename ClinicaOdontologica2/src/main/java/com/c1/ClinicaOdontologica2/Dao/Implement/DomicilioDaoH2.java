@@ -80,7 +80,26 @@ public class DomicilioDaoH2 implements Idao<Domicilio> {
 
     @Override
     public void eliminar(Integer id) {
-        log.info("Iniciando operacion de: eliminar un domicilio");
+        log.info("Iniciando operacion de Eliminado de un Domicilio");
+        Connection connection = null;
+
+        try {
+
+            connection = BDH2.getConnnection();
+            PreparedStatement psDelete = connection.prepareStatement(SQL_DELETE);
+            //Parametrizadas
+            psDelete.setInt(1,id);
+            psDelete.execute();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
 
     }
 

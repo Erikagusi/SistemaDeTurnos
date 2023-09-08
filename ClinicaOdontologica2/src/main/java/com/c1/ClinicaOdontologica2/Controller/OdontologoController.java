@@ -5,10 +5,7 @@ import com.c1.ClinicaOdontologica2.Entity.Odontologo;
 import com.c1.ClinicaOdontologica2.Service.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/odontologo")
@@ -21,5 +18,10 @@ public class OdontologoController {
     public ResponseEntity<Odontologo> registrarOdontologo(@RequestBody Odontologo odontologo) {
 
         return ResponseEntity.ok(odontologoService.guardarOdontologo(odontologo));
+    }
+
+    @GetMapping ("/buscarOdontologo/{id}")
+    public ResponseEntity<Odontologo> buscarporID (@PathVariable Integer id){
+        return ResponseEntity.ok(odontologoService.buscarporID(id));
     }
 }

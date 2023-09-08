@@ -2,12 +2,13 @@ package com.c1.ClinicaOdontologica2.Dao.Implement;
 
 import com.c1.ClinicaOdontologica2.Dao.Idao;
 import com.c1.ClinicaOdontologica2.Entity.Turno;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TurnoDaoList implements Idao<Turno> {
-
+    @Autowired
     private List<Turno> turnoList= new ArrayList<>();
 
     @Override

@@ -33,8 +33,7 @@ public class OdontologoDaoH2 implements Idao<Odontologo> {
             psInsert.setString(1, odontologo.getMatricula());
             psInsert.setString(2, odontologo.getNombre());
             psInsert.setString(3, odontologo.getApellido());
-
-             psInsert.execute();
+            psInsert.execute();
             ResultSet rs = psInsert.getGeneratedKeys();
             while (rs.next()) {
                 odontologo.setId(rs.getInt(1)); //La ubicacion del id en la columna de la tabla
@@ -65,6 +64,7 @@ public class OdontologoDaoH2 implements Idao<Odontologo> {
             psSelectOne.setInt(1, id);
             ResultSet rs = psSelectOne.executeQuery();
             while (rs.next()) {
+                //Debo construir el odontologo
                 odontologo = new Odontologo(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
             }
 
@@ -81,7 +81,26 @@ public class OdontologoDaoH2 implements Idao<Odontologo> {
 
     @Override
     public void eliminar(Integer id) {
+        log.info("Iniciando operacion de Eliminado de un Odontologo");
+        Connection connection = null;
 
+        try {
+
+            connection = BDH2.getConnnection();
+            PreparedStatement psDelete = connection.prepareStatement(SQL_DELETE);
+            //Parametrizadas
+           psDelete.setInt(1,id);
+            psDelete.execute();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -97,10 +116,9 @@ public class OdontologoDaoH2 implements Idao<Odontologo> {
 
             PreparedStatement psUpdate = connection.prepareStatement(SQL_UPDATE);
             //Parametrizadas
-            psUpdate.setString(3, odontologo.getMatricula());
-            psUpdate.setString(1, odontologo.getNombre());
-            psUpdate.setString(2, odontologo.getApellido());
-            psUpdate.setInt(7, odontologo.getId());
+            psUpdate.setString(1, odontologo.getMatricula());
+            psUpdate.setString(2, odontologo.getNombre());
+            psUpdate.setString(3, odontologo.getApellido());
             psUpdate.execute();
 
 

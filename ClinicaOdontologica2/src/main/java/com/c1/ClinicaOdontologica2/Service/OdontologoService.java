@@ -10,14 +10,17 @@ import java.util.List;
 
 @Service
 public class OdontologoService {
-
+    private Idao<Odontologo> odontologoIdao;
 
     @Autowired
-    private Idao<Odontologo> odontologoIdao = new OdontologoDaoH2();
+    public OdontologoService() {
+        odontologoIdao = new OdontologoDaoH2();
+    }
+
+    /*OdontologoService odontologoService;
+    Idao<Odontologo> interfaz;*/
 
 
-    OdontologoService odontologoService;
-    Idao<Odontologo> interfaz;
     public Odontologo guardarOdontologo (Odontologo odontologo){
         return odontologoIdao.guardar(odontologo);
     }

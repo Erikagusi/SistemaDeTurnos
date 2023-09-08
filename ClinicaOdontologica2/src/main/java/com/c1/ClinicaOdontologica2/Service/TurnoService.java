@@ -1,5 +1,4 @@
-
-/*package com.c1.ClinicaOdontologica2.Service;
+package com.c1.ClinicaOdontologica2.Service;
 
 import com.c1.ClinicaOdontologica2.Dao.Idao;
 import com.c1.ClinicaOdontologica2.Dao.Implement.TurnoDaoList;
@@ -14,8 +13,14 @@ import java.util.List;
 public class TurnoService {
 
 
+
+    private Idao<Turno> turnoidao;
+
     @Autowired
-    private Idao<Turno> turnoidao = new TurnoDaoList();
+    public TurnoService() {
+        turnoidao = new TurnoDaoList();
+    }
+
     public List<Turno> ObtenerTurnos(){
         return turnoidao.listarTodos();
     }
@@ -25,12 +30,12 @@ public class TurnoService {
     public void eliminarTurno(Integer id){
         turnoidao.eliminar(id);
     }
-public void  actualizarTurno(Turno turno){
+    public void  actualizarTurno(Turno turno){
         turnoidao.actualizar(turno);
-}
+    }
 
-public Turno guardarTurno(Turno turno){
+    public Turno guardarTurno(Turno turno){
         return  turnoidao.guardar(turno);
-}
+    }
 
-}*/
+}
